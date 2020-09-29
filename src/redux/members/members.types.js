@@ -1,0 +1,6 @@
+const MembersActionsTypes = {
+    SET_MEMBERS_FROM_FIREBASE: 'SET_MEMBERS_FROM_FIREBASE',
+    SET_MOVIES_BY_MEMBER_FROM_FIREBASE: 'SET_MOVIES_BY_MEMBER_FROM_FIREBASE'
+}
+
+export default MembersActionsTypes;
