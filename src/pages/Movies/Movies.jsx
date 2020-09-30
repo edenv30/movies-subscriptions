@@ -8,6 +8,8 @@ import { setMovies } from '../../redux/movies/movies.actions.js'
 
 import AllMovies from './AllMovies';
 
+import TypesPermissions from '../ManageUsers/permissionsTypes';
+
 const Movies = () => {
 
     const [searchField, setSearchField] = useState('');
@@ -27,11 +29,18 @@ const Movies = () => {
     //   }, []);
 
     const moviesList = useSelector(state => state.movies.movies);
+    const currentUserPermissions = useSelector(state => state.user.currentUserPermissions);
+
     return(
         <div>
             <h1>Movies - Subscriptions: Movies</h1>
             <Link to='allmovies' className="btn btn-outline-warning">All movies</Link>
-            <Link to='addmovie' className="btn btn-outline-warning">Add movie</Link>
+            {
+                (currentUserPermissions[0][TypesPermissions.cm])?
+                <Link to='addmovie' className="btn btn-outline-warning">Add movie</Link>
+                : null
+
+            }
             <br /><br />
             {
                 moviesList ?

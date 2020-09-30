@@ -55,7 +55,7 @@ const config = {
     if(!snapShot.exists) {  // if user not exist we create him
       const { displayName, email } = userAuth;
       const createdAt = new Date();
-      // addCollectionToDocument('permissions', userAuth.uid, permissionsDetails);
+      addCollectionToDocument('permissions', userAuth.uid, permissionsDetails);
       try {
         await userRef.set({
           displayName,
@@ -94,11 +94,12 @@ const config = {
   export const getCollectionListSnapshotToMapUsersLogin = (collection) => {
 
     const transformedCollections = collection.docs.map( doc => {
-      const { userName } = doc.data();
+      const { userName, signup } = doc.data();
 
       return {
         id: doc.id,
-        userName
+        userName,
+        signup
       }
     } );
     return transformedCollections;
@@ -142,10 +143,24 @@ const config = {
     });
   }
 
-  export const signup = async (displayName, email, password) => {
+  // for usersLogin update signup when the user signup 
+  export const updateUsersLogin = async (collectionKey, id) => {
+    try {
+      const userRef = firestore.collection(collectionKey).doc(id);
+      //with batch object we add al the sets must to add all if not not set anyone
+      const batch = firestore.batch();
+      batch.update(userRef, {signup: true});
+      // async request -> return a promise
+      return await batch.commit();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  export const signup = async (userName, displayName, email, password) => {
     try {
       const {user} = await auth.createUserWithEmailAndPassword(email, password);
-      await createUserProfileDocument(user, {displayName});
+      await createUserProfileDocument(user, {userName, displayName});
       return true;
     }
     catch(err) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUsersList, getPermissionsUsers, SetUsersWithPermissions } from '../../redux/user/user.action';
+import { getUsersList, getPermissionsUsers, setUsersWithPermissions } from '../../redux/user/user.action';
 
 import { firestore, getCollectionListSnapshotToMap,
     getCollectionListusersPermissionsSnapShotToMap,
@@ -13,12 +13,12 @@ import UserCard from './UserCard';
 // Only fron Admin!!!!!!
 const AllUserManage = () => {
 
-    const [users, setUsers] = useState([]);
-    const [usersPermissions, setUsersPermissions] = useState([]);
+    const [users, setUsers] = useState([]);  // from firebase
+    const [usersPermissions, setUsersPermissions] = useState([]);  // from firebase
 
     const dispatch = useDispatch();
 
-    const usersList = useSelector(state => state.user.users);
+    const usersList = useSelector(state => state.user.users);  // from redux
     // const usersPermissionsList = useSelector(state => state.user.usersPermissions);
 
     useEffect( () => {    
@@ -37,6 +37,7 @@ const AllUserManage = () => {
         const collectionRef = firestore.collection('users');
         collectionRef.onSnapshot(async snapshot => {
             const collection = getCollectionListSnapshotToMap(snapshot);
+            // dispatch(getUsersList(collection));
             setUsers(collection);
         })
   
@@ -44,6 +45,7 @@ const AllUserManage = () => {
         const collectionRef1 = firestore.collection('permissions');
         collectionRef1.onSnapshot(async snapshot => {
             const collection =  getCollectionListusersPermissionsSnapShotToMap(snapshot);
+            // dispatch(getPermissionsUsers(collection));
             setUsersPermissions(collection);
         })
         
@@ -54,9 +56,9 @@ const AllUserManage = () => {
                 const userPremission = usersPermissions.filter( userp => user.id === userp.id )
                 user['permissions'] = userPremission;
             });
-            dispatch(SetUsersWithPermissions(users));
+            dispatch(setUsersWithPermissions(users));
       },[usersPermissions])
-    
+
     return (
         <div>
             <br /><br /><br />

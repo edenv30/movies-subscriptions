@@ -1,9 +1,11 @@
 import React , { useState, useEffect } from 'react';
 
-import { signup } from '../../firebase/firebase.utils';
+import { signup, updateUsersLogin } from '../../firebase/firebase.utils';
 
 import { connect } from 'react-redux';
 import { setUserLoginEmailPass } from '../../redux/user/user.action';
+
+import { useLocation } from 'react-router-dom';
 
 // const [firstName, setFirstName] = useState('');
 // const [lastName, setLastName] = useState('');
@@ -19,6 +21,11 @@ import { setUserLoginEmailPass } from '../../redux/user/user.action';
 // </div>
 
 const SignUp = () => {
+
+  
+  const location = useLocation();
+  const {userName, userId} = location.state;
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -47,8 +54,12 @@ const SignUp = () => {
       }
 
       try {
-        const flag = await signup(displayName, email, password);
+        const flag = await signup(userName, displayName, email, password);
+        console.log(flag)
         setIsSubmitted(flag);
+        if(flag){
+          updateUsersLogin('usersLogin', userId);
+        }
        
         // createUserProfileDocument()
       } catch (error) {
@@ -68,7 +79,6 @@ const SignUp = () => {
       }
 
     }, [isSubmitted])
-
     return(
         <div>
             <h1>Movies - Subscriptions: Sign Up </h1>

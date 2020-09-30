@@ -13,7 +13,7 @@ import { updateUserDateInFireBase, updateUserPermissionsDateInFireBase } from '.
 const EditUser = () => {
 
     const location = useLocation();
-    const user = location.state.user
+    const user = location.state.user;
 
     const [name, setName] = useState(user.displayName);
     const [email, setEmail] = useState(user.email);
@@ -31,33 +31,42 @@ const EditUser = () => {
 
     const [changed, setChanged] = useState(false);
 
-    const permissionschange = (func, e, typeP, flag) => {
-        func(e.target.checked);
-        permissions[0][typeP] = e.target.checked;
+
+    useEffect( () => {
+        if(createM && updateM && deleteM) 
+            permissionschange(setViewM, true, TypesPermissions.vmovies);
+        if(createS && updateS && deleteS) 
+            permissionschange(setViewS, true, TypesPermissions.vs);
+        
+    }, [viewS, createS, updateS, deleteS, viewM, createM, updateM, deleteM ]);
+
+    const permissionschange = (func, flag, typeP) => {
+        func(flag);
+        permissions[0][typeP] = flag;
         setPermissions(permissions);
     }
 
     const handlePermissions = e => {
         if(e.target.id === TypesPermissions.vs) {
-            permissionschange(setViewS, e, TypesPermissions.vs, viewS);
+            permissionschange(setViewS, e.target.checked, TypesPermissions.vs, viewS);
             // setViewS(e.target.checked);
             // permissions[0][TypesPermissions.vs] = viewS;
             // setPermissions(permissions);
         }
         else if (e.target.id === TypesPermissions.cs)
-            permissionschange(setCreateS, e, TypesPermissions.cs, createS);
+            permissionschange(setCreateS, e.target.checked, TypesPermissions.cs);
         else if (e.target.id === TypesPermissions.us)
-            permissionschange(setUpdateS, e, TypesPermissions.us, updateS);
+            permissionschange(setUpdateS, e.target.checked, TypesPermissions.us);
         else if (e.target.id === TypesPermissions.ds)
-            permissionschange(setDeleteS, e, TypesPermissions.ds, deleteS);
+            permissionschange(setDeleteS, e.target.checked, TypesPermissions.ds);
         else if (e.target.id === TypesPermissions.vmovies)
-            permissionschange(setViewM, e, TypesPermissions.vmovies, viewM);
+            permissionschange(setViewM, e.target.checked, TypesPermissions.vmovies);
         else if (e.target.id === TypesPermissions.cm)
-            permissionschange(setCreateM, e, TypesPermissions.cm, createM);
+            permissionschange(setCreateM, e.target.checked, TypesPermissions.cm);
         else if (e.target.id === TypesPermissions.um)
-            permissionschange(setUpdateM, e, TypesPermissions.um, updateM);
+            permissionschange(setUpdateM, e.target.checked, TypesPermissions.um);
         else if (e.target.id === TypesPermissions.dm)
-            permissionschange(setDeleteM, e, TypesPermissions.dm, deleteM);
+            permissionschange(setDeleteM, e.target.checked, TypesPermissions.dm);
     }
 
     const handleChanges = (e) => {

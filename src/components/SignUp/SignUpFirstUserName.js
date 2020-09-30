@@ -17,9 +17,11 @@ const SignUpFirstUserName = () => {
     const usersList = useSelector(state => state.user.usersLoginList);
     const dispatch = useDispatch();
 
-    const [isExist, setIsExist] = useState(false);
+    const [isExist, setIsExist] = useState(false);  // if the user name exist
+    const [isSignup, setIsSignup] = useState(false);  // if already sign up 
     const [isSubmit, setIsSubmit] = useState(false);
-
+    const [userId, setUserId] = useState('');
+ 
     useEffect( () => {
         const collectionRef = firestore.collection('usersLogin');
             collectionRef.onSnapshot(async snapshot => {
@@ -30,20 +32,31 @@ const SignUpFirstUserName = () => {
 
     const isUserNameExist = () => {
         let flag = false;
+        let isSign=false;
+        let id = '';
         console.log(usersList)
         usersList.forEach( user => {
             if(user.userName === userName){
-                console.log(user.userName, userName)
-                flag = true;}
+                flag = true;
+                isSign = user.signup;
+                id = user.id;
+            }
         })
-        return flag;
+        return {flag, isSign, id};
     }
 
     const handleSubmit = e => {
         e.preventDefault();
         setIsSubmit(true);
-        const flag = isUserNameExist();
+        const {flag, isSign, id} = isUserNameExist();
         setIsExist(flag);
+        setIsSignup(isSign);
+        setUserId(id);
+    }
+
+    const clear = () => {
+        alert(`${userName} already sign in the system!`) 
+        return <Redirect to='signin'></Redirect>
     }
 
     return (
@@ -61,10 +74,17 @@ const SignUpFirstUserName = () => {
                             Submit
                         </button> <br /><br />
                         {   
-                            console.log(isSubmit, isExist), 
                             (isSubmit)?(
                             (isExist) ? 
-                            <Redirect to='signup' />
+                            ((isSignup)?
+                                (
+                                clear())
+                                :
+                                <Redirect to={{
+                                pathname: 'signup',
+                                state: {userName, userId}
+                                }} />
+                            )
                             :
                             alert(`User name doesn't exist !`)) : null
                         }

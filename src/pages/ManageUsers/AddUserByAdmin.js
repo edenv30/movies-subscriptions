@@ -43,9 +43,10 @@ const AddUserByAdmin = () => {
             try {
                 const createdAt = new Date();
                 const flag = isUserNameExist(userName);
+                const signup = false;
                 if (flag)  
                 {
-                    addNewUser('usersLogin', {userName, createdAt});
+                    addNewUser('usersLogin', {userName, createdAt, signup});
                     alert('Details saved successfully');
                     setChanged(true);
                 }

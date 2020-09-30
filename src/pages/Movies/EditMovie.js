@@ -27,6 +27,20 @@ const EditMovie = () => {
         setChanged(true);
     }   
 
+    const changeGenres = (e) => {
+        let genresStr = e.target.value;
+        var temp = genresStr.split(",");
+        var res = temp.map( movieName => {
+            let name = capitalizeFirstLetter(movieName);
+            return name;
+        } )
+        setGenres(res);
+    }
+
+    const  capitalizeFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
     return(
         <div>
         <h2>Movies</h2>
@@ -63,21 +77,8 @@ const EditMovie = () => {
                                      <div className="form-group row">
                                         <label className="col-lg-3 col-form-label form-control-label">Genres: </label>
                                         <div className="col-lg-9">
-                                        
-                                            <DropdownButton className="btn btn-danger btn-sm rounded-0"
-                                                title='See all' size="sm" variant='Warning'>
-                                               { 
-                                                   genres.map( (genr, index) => {
-                                                       return <Dropdown.Item key={index} eventKey={index}>{genr}</Dropdown.Item>
-                                                   } )
-                                                }
-                                                
-                                            </DropdownButton>
-                                            <Button className="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" 
-                                                data-placement="top" title="Add"  size="sm"
-                                                >
-                                                <i className="fa fa-plus" aria-hidden="true"></i>
-                                            </Button>
+                                            <input className="form-control" type="text" value={ genres.map( genr => genr) } 
+                                            onChange={ e => changeGenres(e)} />
                                         </div>
                                     </div>
 
@@ -100,3 +101,18 @@ const EditMovie = () => {
 }
 
 export default EditMovie;
+
+// <DropdownButton className="btn btn-danger btn-sm rounded-0"
+// title='See all' size="sm" variant='Warning'>
+// { 
+//    genres.map( (genr, index) => {
+//        return <Dropdown.Item key={index} eventKey={index}>{genr}</Dropdown.Item>
+//    } )
+// }
+
+// </DropdownButton>
+// <Button className="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" 
+// data-placement="top" title="Add"  size="sm"
+// >
+// <i className="fa fa-plus" aria-hidden="true"></i>
+// </Button>

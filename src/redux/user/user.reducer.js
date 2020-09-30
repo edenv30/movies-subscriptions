@@ -1,11 +1,12 @@
 import UserActionTypes from './user.type';
 const INITIAL_STATE = {
     currentUser: null,
+    currentUserPermissions: [],
     loggedIn: false,
     error: null,
     users: [],
     usersPermissions: [],
-    usersLoginList : []
+    usersLoginList : [],
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -39,6 +40,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 return {
                     ...state,
                     usersLoginList: action.payload
+                }
+            case UserActionTypes.GET_CURRENT_USER_PERMISSIONS: 
+                return {
+                    ...state,
+                    currentUserPermissions: action.payload
                 }
         default:
             return state;

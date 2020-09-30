@@ -25,7 +25,7 @@ export const getPermissionsUsers = usersPermissions => ({
     payload: usersPermissions
 });
 
-export const SetUsersWithPermissions = users => ({
+export const setUsersWithPermissions = users => ({
     type: UserActionTypes.SET_USERS_WITH_PERMISSIONS,
     payload: users
 });
@@ -33,4 +33,9 @@ export const SetUsersWithPermissions = users => ({
 export const getUserLoginList = users => ({
     type: UserActionTypes.GET_USERS_LOGIN_LIST,
     payload: users
+});
+
+export const getCurrentUserPermissions = user => ({
+    type: UserActionTypes.GET_CURRENT_USER_PERMISSIONS,
+    payload: user
 });

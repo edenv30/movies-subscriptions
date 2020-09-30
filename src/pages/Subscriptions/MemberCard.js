@@ -6,9 +6,14 @@ import { useSelector } from 'react-redux';
 
 import { Card, Nav, Button, Modal, Form, Dropdown } from 'react-bootstrap';
 
-import { deleteMemberFromFirebase, checkMemberInFirebase, firestore } from '../../firebase/firebase.utils';
+import { deleteMemberFromFirebase, checkMemberInFirebase } from '../../firebase/firebase.utils';
+
+import TypesPermissions from '../ManageUsers/permissionsTypes';
+
 
 const MemberCard = ({member}) => {
+
+    const currentUserPermissions = useSelector(state => state.user.currentUserPermissions);
 
     const moviesList = useSelector(state => state.movies.movies);
     const moviesOfmembers = useSelector(state => state.members.moviesByMember);
@@ -124,21 +129,30 @@ const MemberCard = ({member}) => {
                             </Card.Text>
                         </Card.Body>
                         <Card.Footer>
-                            <li className="list-inline-item">
-                                <Link to={{pathname: '/editmember', state:{ member}}}
-                                    className="btn btn-danger btn-sm rounded-0" type="button" 
-                                    data-toggle="tooltip" data-placement="top" title="Edit">
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>    
-                                </Link>
-                            </li>     
-                    
-                            <li className="list-inline-item">
-                                <Button className="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" 
-                                        data-placement="top" title="Delete"
-                                        onClick={e => handleShow(e)}>
-                                    <i className="fa fa-trash" aria-hidden="true"></i>
-                                </Button>
-                            </li>
+                        {
+                            (currentUserPermissions[0][TypesPermissions.us])?
+                            (
+                                <li className="list-inline-item">
+                                    <Link to={{pathname: '/editmember', state:{ member}}}
+                                        className="btn btn-danger btn-sm rounded-0" type="button" 
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i className="fa fa-pencil" aria-hidden="true"></i>    
+                                    </Link>
+                                </li>     
+                            ) : null
+                        }
+                        {
+                            (currentUserPermissions[0][TypesPermissions.ds])?
+                            (
+                                <li className="list-inline-item">
+                                    <Button className="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" 
+                                            data-placement="top" title="Delete"
+                                            onClick={e => handleShow(e)}>
+                                        <i className="fa fa-trash" aria-hidden="true"></i>
+                                    </Button>
+                                </li>
+                            ) : null
+                        }
                             <Modal show={show} onHide={handleClose} >
                                         <div className="card text-white bg-dark mb-3">
                                             <Modal.Header closeButton>
@@ -186,7 +200,12 @@ const MemberCard = ({member}) => {
                             </Card.Text>
                         </Card.Body>
                         <Card.Footer>
-                            <Button className="btn btn-danger" onClick={ e => {handleSubNewMovie(e)}}>Subscribe to new movie </Button>
+                        {
+                            (currentUserPermissions[0][TypesPermissions.us])?
+                            (
+                                <Button className="btn btn-danger" onClick={ e => {handleSubNewMovie(e)}}>Subscribe to new movie </Button>
+                            ): null
+                        }
                             {
                                 (isSubNewMovie) ? 
                                 <div>

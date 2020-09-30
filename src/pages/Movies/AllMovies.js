@@ -8,8 +8,16 @@ import { Button, Modal } from 'react-bootstrap';
 
 import { deleteMovieFromFirebase } from '../../firebase/firebase.utils.js';
 
+import TypesPermissions from '../ManageUsers/permissionsTypes';
+
 const AllMovies = ({searchField}) => {
+
+    const currentUserPermissions = useSelector(state => state.user.currentUserPermissions);
+
     const moviesList = useSelector(state => state.movies.movies);
+    const currentUser = useSelector(state => state.user.currentUser);
+    console.log(currentUser)
+
     const [moviesListTemp, setmoviesListTemp] = useState(moviesList);
     
     const [show, setShow] = useState(false);
@@ -57,12 +65,23 @@ const AllMovies = ({searchField}) => {
                                         (gener, index) => <li key={index}> {gener} </li>
                                     )} 
                                     </ul>
-                                <Link to={{pathname: '/editmovie', state:{ movie}}}
-                                        className="btn btn-danger" type="button" 
-                                        data-toggle="tooltip" data-placement="top" title="Edit">
-                                    Edit
-                                </Link>
-                                <Button className="btn btn-danger" onClick={e => handleShow(e)}>Delete</Button>
+                                    {
+                                        (currentUserPermissions[0][TypesPermissions.um])?
+                                        (
+                                            <Link to={{pathname: '/editmovie', state:{ movie}}}
+                                                className="btn btn-danger" type="button" 
+                                                data-toggle="tooltip" data-placement="top" title="Edit">
+                                                Edit
+                                            </Link>
+                                        ) : null
+                                    }
+                                
+                                {
+                                    (currentUserPermissions[0][TypesPermissions.dm])?
+                                    (
+                                        <Button className="btn btn-danger" onClick={e => handleShow(e)}>Delete</Button>
+                                    ) : null
+                                }
                                     <Modal show={show} onHide={handleClose} >
                                     <div className="card text-white bg-dark mb-3">
                                         <Modal.Header closeButton>

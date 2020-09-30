@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { addNewUser } from '../../firebase/firebase.utils';
 
-
 const AddMember = () => {
+
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
