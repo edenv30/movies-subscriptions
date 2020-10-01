@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Navbar, Nav, NavDropdown, Form } from 'react-bootstrap';
+import { Navbar, Nav, Form } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
 
 import { logout } from '../../firebase/firebase.utils';

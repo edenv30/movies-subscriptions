@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
+// import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setMovies } from '../../redux/movies/movies.actions.js'
+// import { setMovies } from '../../redux/movies/movies.actions.js'
 
 import AllMovies from './AllMovies';
 

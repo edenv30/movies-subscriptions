@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const MemberCard = ({member}) => {
     const [filteredList, setFilteredList] = useState([]);
 
     const [show, setShow] = useState(false);
-    const [activeKey, setActiveKey] = useState('/details');
+    const [activeKey, setActiveKey] = useState('details');
     const [isSubNewMovie, setIsSubNewMovie] = useState(false);
 
     const [movieId, setMovieId] = useState('');
@@ -97,8 +97,8 @@ const MemberCard = ({member}) => {
     const filteredMoviesExist = () => {
         const filtered  = moviesList.filter(function(array_el){
             return moviesByMemberId.filter(function(anotherOne_el){
-                return anotherOne_el.movieId == array_el.id;
-            }).length == 0
+                return anotherOne_el.movieId === array_el.id;
+            }).length === 0
         });
         setFilteredList(filtered);
     }
@@ -107,19 +107,25 @@ const MemberCard = ({member}) => {
         <div>
             <Card bg='dark'>
                 <Card.Header bg='secondary'>
-                    <Nav variant="tabs" defaultActiveKey="#details"
-                        activeKey="/details"
+                    <Nav variant="tabs" defaultActiveKey="details"
+                        activeKey={activeKey} as="ul" 
                         onSelect={(selectedKey) => setActiveKey(selectedKey)}>
-                    <Nav.Item>
-                        <Nav.Link href="/details">Member Details</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="watched">Movies watched</Nav.Link>
-                    </Nav.Item>
+                        <Nav.Item as="li"> 
+                            <Nav.Link eventKey="details" className="nav nav-tabs btn btn-danger" 
+                                >
+                                Member Details
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item as="li">
+                            <Nav.Link eventKey="watched" className="nav nav-tabs btn btn-danger" 
+                            >
+                                Movies watched
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
                 </Card.Header>
                 {
-                    (activeKey === '/details') ? 
+                    (activeKey === 'details') ? 
                     <div>
                         <Card.Body>
                             <Card.Title>{member.name}</Card.Title>
@@ -182,13 +188,13 @@ const MemberCard = ({member}) => {
                                         (moviesByMemberId) ?
                                         moviesByMemberId.map( (m, index) => {
                                         {   var name = '';
-                                            var names = moviesList.filter( movie => {
+                                            moviesList.filter( movie => {
                                             if(movie.id === m.movieId){
                                                 name = movie.name
-                        
                                             }
                                                 return name
-                                        } ) }
+                                            } ) 
+                                        }
                                         return <li key={index}>
                                                 Movie : {name} <br />
                                                 Date: {m.date}

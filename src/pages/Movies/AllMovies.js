@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, ListGroup  } from 'react-bootstrap';
 
 import { deleteMovieFromFirebase } from '../../firebase/firebase.utils.js';
 
@@ -59,12 +59,12 @@ const AllMovies = ({searchField}) => {
                         <img src={movie.image} className="card-img-top" alt="" />
                             <div className="card-body">
                                 <h5 className="card-title">{movie.name}</h5>
-                                <p className="card-text">genres:</p>
-                                    <ul style={{listStyleType: "none"}}>
-                                    {movie.genres.map(
-                                        (gener, index) => <li key={index}> {gener} </li>
-                                    )} 
-                                    </ul>
+                                <p className="card-text">Genres:</p>
+                                    <ListGroup as="ul">
+                                        {movie.genres.map(
+                                            (gener, index) => <ListGroup.Item as="li" variant="danger" key={index}> {gener} </ListGroup.Item>
+                                        )} 
+                                    </ListGroup>
                                     {
                                         (currentUserPermissions[0][TypesPermissions.um])?
                                         (
@@ -110,3 +110,9 @@ const AllMovies = ({searchField}) => {
 }
 
 export default AllMovies;
+
+// <ul style={{listStyleType: "none"}}>
+// {movie.genres.map(
+//     (gener, index) => <li key={index}> {gener} </li>
+// )} 
+// </ul>
