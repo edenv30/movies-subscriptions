@@ -64,7 +64,7 @@ const AllMovies = ({searchField}) => {
                                         {movie.genres.map(
                                             (gener, index) => <ListGroup.Item as="li" variant="danger" key={index}> {gener} </ListGroup.Item>
                                         )} 
-                                    </ListGroup>
+                                    </ListGroup><br /><br />
                                     {
                                         (currentUserPermissions[0][TypesPermissions.um])?
                                         (
