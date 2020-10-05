@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 import TypesPermissions from './permissionsTypes';
 
-import { updateUserDateInFireBase, updateUserPermissionsDateInFireBase } from '../../firebase/firebase.utils';
+import { updateUserDateInFireBase, updateUserPermissionsDateInFireBase, updateDataInFirebase } from '../../firebase/firebase.utils';
 
 const EditUser = () => {
 
@@ -70,9 +70,37 @@ const EditUser = () => {
     }
 
     const handleChanges = (e) => {
+        // e.preventDefault();
+        // updateUserDateInFireBase(user.id, name, email, user.createdAt);
+        // updateUserPermissionsDateInFireBase(user.id, permissions[0]);
+        // alert('Details changed successfully');
+        // setChanged(true);
         e.preventDefault();
-        updateUserDateInFireBase(user.id, name, email, user.createdAt);
-        updateUserPermissionsDateInFireBase(user.id, permissions[0]);
+        // update in users
+        var userData = {
+            displayName: name,
+            id: user.id,
+            email: email,
+            createdAt: user.createdAt,
+          };
+        updateDataInFirebase('users', user.id, userData )
+        // updateUserDateInFireBase(user.id, name, email, user.createdAt);
+        // update in permissions
+        const { viewSubscriptions, createSubscriptions, updateSubscriptions, deleteSubscriptions,
+            viewMovies, createMovies, updateMovies, deleteMovies } = permissions[0];
+        var userData = {
+            id: user.id,
+            viewSubscriptions, 
+            createSubscriptions, 
+            updateSubscriptions,
+            deleteSubscriptions,
+            viewMovies,
+            createMovies,
+            updateMovies,
+            deleteMovies
+        };
+        updateDataInFirebase('permissions', user.id, userData);
+        // updateUserPermissionsDateInFireBase(user.id, permissions[0]);
         alert('Details changed successfully');
         setChanged(true);
     }   

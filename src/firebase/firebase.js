@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
+
 const config = {
   apiKey: "AIzaSyCN1VJ-36hCrlmFmMxyTrB7pXn1QubKLf0",
   authDomain: "movies-subscriptions.firebaseapp.com",
@@ -89,6 +90,38 @@ const config = {
     }
   }
 
+   //for usersLogin
+  export const getCollectionListSnapshotToMapUsersLogin = (collection) => {
+
+    const transformedCollections = collection.docs.map( doc => {
+      const { userName, signup } = doc.data();
+
+      return {
+        id: doc.id,
+        userName,
+        signup
+      }
+    } );
+    return transformedCollections;
+  }
+
+  // Listening to Authentication Provider
+  // This will keep a connection to the firebase authentication provider, 
+  // and change whenever the backend state of the logged in user changes.
+  // export const onAuthStateChangeFirebase = (callback) => {
+  //   return auth.onAuthStateChanged( user => {
+  //     console.log(user)
+  //     if(user) {
+  //       callback(true); // set loggedIn to true
+  //       console.log('The user is logged in')
+  //     }
+  //     else {
+  //       callback(false);
+  //       console.log("The user is not logged in");
+  //     }
+  //   });
+  // }
+
   export const onAuthStateChangeFirebase = (callback, callbackDetails) => {
     return auth.onAuthStateChanged( async userAuth => {
       if(userAuth) {
@@ -110,10 +143,11 @@ const config = {
     });
   }
 
-  export const signup = async (userName, userId, displayName, email, password) => {
+
+  export const signup = async (userName, displayName, email, password) => {
     try {
       const {user} = await auth.createUserWithEmailAndPassword(email, password);
-      await createUserProfileDocument(user, {userName, userId, displayName});
+      await createUserProfileDocument(user, {userName, displayName});
       return true;
     }
     catch(err) {
@@ -162,21 +196,6 @@ const config = {
     }
   }
 
-  //for usersLogin
-  export const getCollectionListSnapshotToMapUsersLogin = (collection) => {
-
-    const transformedCollections = collection.docs.map( doc => {
-      const { userName, signup } = doc.data();
-
-      return {
-        id: doc.id,
-        userName,
-        signup
-      }
-    } );
-    return transformedCollections;
-  }
-
   //for movies
   export const convertCollectionsSnapshotToMap = (collections) => {
     const transformedCollections = collections.docs.map( doc => {
@@ -205,15 +224,13 @@ const config = {
   export const getCollectionListSnapshotToMap = (collection) => {
 
     const transformedCollections = collection.docs.map( doc => {
-      const { displayName, email, createdAt, userName, userId } = doc.data();
+      const { displayName, email, createdAt } = doc.data();
 
       return {
         id: doc.id,
         displayName, 
         email, 
-        createdAt,
-        userName,
-        userId
+        createdAt
       }
     } );
     return transformedCollections;
@@ -269,12 +286,85 @@ export const getMoviesByMemberid = (collection) => {
   return transformedCollections;
 }
 
-export const updateDataInFirebase = async (collection, id, objToUpdate) => {
+  //update for usersLogin update signup when the user signup 
+  export const updateUsersLogin = async (collectionKey, id) => {
+    try {
+      const userRef = firestore.collection(collectionKey).doc(id);
+      //with batch object we add al the sets must to add all if not not set anyone
+      const batch = firestore.batch();
+      batch.update(userRef, {signup: true});
+      // async request -> return a promise
+      return await batch.commit();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  //update user data in firebase
+  export const updateUserDateInFireBase = async (id, name, email, createdAt) => {
+    var userData = {
+      displayName: name,
+      id: id,
+      email: email,
+      createdAt: createdAt,
+    };
+
+    try {
+      const userRef = firestore.collection('users').doc(id);
+      //with batch object we add al the sets must to add all if not not set anyone
+      const batch = firestore.batch();
+      batch.update(userRef, userData);
+      // async request -> return a promise
+      return await batch.commit();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  //update user permissions data in firebase
+  export const updateUserPermissionsDateInFireBase = async (id, permissions) => {
+    const {   viewSubscriptions, createSubscriptions, updateSubscriptions, deleteSubscriptions,
+      viewMovies, createMovies, updateMovies, deleteMovies } = permissions;
+      // A post entry.
+    var userData = {
+      id: id,
+      viewSubscriptions, 
+      createSubscriptions, 
+      updateSubscriptions,
+      deleteSubscriptions,
+      viewMovies,
+      createMovies,
+      updateMovies,
+      deleteMovies
+    };
+
+    try {
+      const userRef = firestore.collection('permissions').doc(id);
+      //with batch object we add al the sets must to add all if not not set anyone
+      const batch = firestore.batch();
+      batch.update(userRef, userData);
+      // async request -> return a promise
+      return await batch.commit();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+  
+
+  // update movie data in firebase
+  export const updateMovieDataInFirebase = async (id, name, image, premiered ,genres) => {
+  var movieData = {
+    name,
+    image,
+    premiered,
+    genres
+  };
+
   try {
-    const memberRef = firestore.collection(collection).doc(id);
+    const movieRef = firestore.collection('movies').doc(id);
     //with batch object we add all the sets must to add all if not not set anyone
     const batch = firestore.batch();
-    batch.update(memberRef, objToUpdate);
+    batch.update(movieRef, movieData);
     // async request -> return a promise
     return await batch.commit();
   } catch(err) {
@@ -282,9 +372,62 @@ export const updateDataInFirebase = async (collection, id, objToUpdate) => {
   }
 }
 
-export const deleteDataFromFirebase = async (collection, id) => {
+//update member data in firebase
+export const updateMemberDataInFirebase = async (id, name, email, city, collection) => {
+  var memberData = {
+    name,
+    email,
+    city
+  };
+
   try {
-    const collectionRef = firestore.collection(collection).doc(id);
+    const memberRef = firestore.collection(collection).doc(id);
+    //with batch object we add all the sets must to add all if not not set anyone
+    const batch = firestore.batch();
+    batch.update(memberRef, memberData);
+    // async request -> return a promise
+    return await batch.commit();
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+  // delete user from firebase 
+  export const deleteUserFromFirebase = async (id) => {
+    try {
+      const userRef = firestore.collection('users').doc(id);
+      const permissionsUserRef = firestore.collection('permissions').doc(id);
+      //with batch object we add al the sets must to add all if not not set anyone
+      const batch = firestore.batch();
+      batch.delete(userRef);
+      batch.delete(permissionsUserRef);
+      // async request -> return a promise
+      return await batch.commit();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+// delete movie from firebase
+export const deleteMovieFromFirebase = async (id, collectionName) => {
+  try {
+    const collectionRef = firestore.collection(collectionName).doc(id);
+    //with batch object we add al the sets must to add all if not not set anyone
+    const batch = firestore.batch();
+    batch.delete(collectionRef);
+    // async request -> return a promise
+    return await batch.commit();
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+
+
+// delete member from firebase
+export const deleteMemberFromFirebase = async (id, collectionName) => {
+  try {
+    const collectionRef = firestore.collection(collectionName).doc(id);
     //with batch object we add al the sets must to add all if not not set anyone
     const batch = firestore.batch();
     batch.delete(collectionRef);
@@ -322,4 +465,112 @@ export const checkMemberInFirebase = async (collectionName, id, objectToAdd ) =>
   }
 }
 
+
 export default firebase;
+
+
+
+  //update for usersLogin update signup when the user signup 
+  // export const updateUsersLogin = async (collectionKey, id) => {
+  //   try {
+  //     const userRef = firestore.collection(collectionKey).doc(id);
+  //     //with batch object we add al the sets must to add all if not not set anyone
+  //     const batch = firestore.batch();
+  //     batch.update(userRef, {signup: true});
+  //     // async request -> return a promise
+  //     return await batch.commit();
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  //update user data in firebase
+  // export const updateUserDateInFireBase = async (id, name, email, createdAt) => {
+  //   var userData = {
+  //     displayName: name,
+  //     id: id,
+  //     email: email,
+  //     createdAt: createdAt,
+  //   };
+
+  //   try {
+  //     const userRef = firestore.collection('users').doc(id);
+  //     //with batch object we add al the sets must to add all if not not set anyone
+  //     const batch = firestore.batch();
+  //     batch.update(userRef, userData);
+  //     // async request -> return a promise
+  //     return await batch.commit();
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  //update user permissions data in firebase
+  // export const updateUserPermissionsDateInFireBase = async (id, permissions) => {
+  //   const { viewSubscriptions, createSubscriptions, updateSubscriptions, deleteSubscriptions,
+  //     viewMovies, createMovies, updateMovies, deleteMovies } = permissions;
+  //     // A post entry.
+  //   var userData = {
+  //     id: id,
+  //     viewSubscriptions, 
+  //     createSubscriptions, 
+  //     updateSubscriptions,
+  //     deleteSubscriptions,
+  //     viewMovies,
+  //     createMovies,
+  //     updateMovies,
+  //     deleteMovies
+  //   };
+
+  //   try {
+  //     const userRef = firestore.collection('permissions').doc(id);
+  //     //with batch object we add al the sets must to add all if not not set anyone
+  //     const batch = firestore.batch();
+  //     batch.update(userRef, userData);
+  //     // async request -> return a promise
+  //     return await batch.commit();
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  // update movie data in firebase
+//   export const updateMovieDataInFirebase = async (id, name, image, premiered ,genres) => {
+//   var movieData = {
+//     name,
+//     image,
+//     premiered,
+//     genres
+//   };
+
+//   try {
+//     const movieRef = firestore.collection('movies').doc(id);
+//     //with batch object we add all the sets must to add all if not not set anyone
+//     const batch = firestore.batch();
+//     batch.update(movieRef, movieData);
+//     // async request -> return a promise
+//     return await batch.commit();
+//   } catch(err) {
+//     console.log(err);
+//   }
+// }
+
+//update member data in firebase
+// export const updateMemberDataInFirebase = async (id, name, email, city, collection) => {
+//   var memberData = {
+//     name,
+//     email,
+//     city
+//   };
+
+//   try {
+//     const memberRef = firestore.collection(collection).doc(id);
+//     //with batch object we add all the sets must to add all if not not set anyone
+//     const batch = firestore.batch();
+//     batch.update(memberRef, memberData);
+//     // async request -> return a promise
+//     return await batch.commit();
+//   } catch(err) {
+//     console.log(err);
+//   }
+// }

@@ -19,7 +19,6 @@ const getMovies = async() => {
     } catch(err) {
         console.log(err);
     }
-   
 }
 
 const getMembers = async() => {

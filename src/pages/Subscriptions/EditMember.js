@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link, Redirect } from 'react-router-dom';
-import { updateMemberDataInFirebase } from '../../firebase/firebase.utils';
+import { updateMemberDataInFirebase, updateDataInFirebase } from '../../firebase/firebase.utils';
 
 const EditMember = () => {
 
@@ -15,8 +15,13 @@ const EditMember = () => {
     const [changed, setChanged] = useState(false);
 
     const handleChanges = (e) => {
+        // e.preventDefault();
+        // updateMemberDataInFirebase(member.id, name, email,city, 'members')
+        // alert('Details changed successfully');
+        // setChanged(true);
         e.preventDefault();
-        updateMemberDataInFirebase(member.id, name, email,city, 'members')
+        updateDataInFirebase('members', member.id, {name, email,city} );
+        // updateMemberDataInFirebase(member.id, name, email,city, 'members')
         alert('Details changed successfully');
         setChanged(true);
     }   

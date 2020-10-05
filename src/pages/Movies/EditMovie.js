@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 // import {DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
-import { updateMovieDataInFirebase } from '../../firebase/firebase.utils';
+import { updateMovieDataInFirebase, updateDataInFirebase } from '../../firebase/firebase.utils';
 
 const EditMovie = () => {
 
@@ -21,8 +21,13 @@ const EditMovie = () => {
     const [changed, setChanged] = useState(false);
 
     const handleChanges = (e) => {
+        // e.preventDefault();
+        // updateMovieDataInFirebase(movie.id, name, image, premiered, genres);
+        // alert('Details changed successfully');
+        // setChanged(true);
         e.preventDefault();
-        updateMovieDataInFirebase(movie.id, name, image, premiered, genres);
+        updateDataInFirebase('movies', movie.id, {name, image, premiered, genres} );
+        // updateMovieDataInFirebase(movie.id, name, image, premiered, genres);
         alert('Details changed successfully');
         setChanged(true);
     }   

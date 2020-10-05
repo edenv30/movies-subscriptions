@@ -6,17 +6,18 @@ import { useSelector } from 'react-redux';
 
 import { Card, Nav, Button, Modal, Form, Dropdown } from 'react-bootstrap';
 
-import { deleteMemberFromFirebase, checkMemberInFirebase } from '../../firebase/firebase.utils';
+import { deleteMemberFromFirebase, checkMemberInFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils';
 
 import TypesPermissions from '../ManageUsers/permissionsTypes';
 
 
 const MemberCard = ({member}) => {
-
+    
     const currentUserPermissions = useSelector(state => state.user.currentUserPermissions);
 
     const moviesList = useSelector(state => state.movies.movies);
     const moviesOfmembers = useSelector(state => state.members.moviesByMember);
+    
     const [moviesByMemberId, setmoviesByMemberId] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
 
@@ -39,10 +40,11 @@ const MemberCard = ({member}) => {
     const deleteUser = (e) => {
         e.preventDefault();
         handleClose();
-        deleteMemberFromFirebase(member.id, 'members');
-        deleteMemberFromFirebase(member.id, 'subscriptions');
+        // deleteMemberFromFirebase(member.id, 'members');
+        // deleteMemberFromFirebase(member.id, 'subscriptions');
 
-
+        deleteDataFromFirebase('members', member.id);
+        deleteDataFromFirebase('subscriptions', member.id);
     }
 
     const handleSubNewMovie = e => {
@@ -67,7 +69,6 @@ const MemberCard = ({member}) => {
             // setmoviesByMemberId([...moviesByMemberId , obj]);  /// to check assingment!!!
             const memberId = member.id;
             checkMemberInFirebase('subscriptions', memberId, {movies: moviesByMemberId} );
-            console.log(moviesByMemberId )
             // checkMemberInFirebase('subscriptions', memberId, obj );
             alert(`${member.name} member is subscribed to ${movieName} movie`);
             
@@ -80,9 +81,16 @@ const MemberCard = ({member}) => {
     }
 
     useEffect( () => {
+        // var flag = false;
+        // moviesOfmembers.map( m => {
+        //     if(m.id === member.id)
+        //         flag = true;
+
+        // })
         if(moviesOfmembers.length > 0) {
             const memberMovies = moviesOfmembers.filter( m => m.id === member.id);
-            setmoviesByMemberId(memberMovies[0].movies);
+            if(memberMovies.length > 0)
+                setmoviesByMemberId(memberMovies[0].movies);
         }
     }, [moviesOfmembers]);
 

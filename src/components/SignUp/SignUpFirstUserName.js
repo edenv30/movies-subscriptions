@@ -34,7 +34,6 @@ const SignUpFirstUserName = () => {
         let flag = false;
         let isSign=false;
         let id = '';
-        console.log(usersList)
         usersList.forEach( user => {
             if(user.userName === userName){
                 flag = true;

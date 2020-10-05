@@ -1,6 +1,6 @@
 import React , { useState, useEffect } from 'react';
 
-import { signup, updateUsersLogin } from '../../firebase/firebase.utils';
+import { signup, updateUsersLogin, updateDataInFirebase } from '../../firebase/firebase.utils';
 
 import { connect } from 'react-redux';
 import { setUserLoginEmailPass } from '../../redux/user/user.action';
@@ -54,11 +54,11 @@ const SignUp = () => {
       }
 
       try {
-        const flag = await signup(userName, displayName, email, password);
-        console.log(flag)
+        const flag = await signup(userName, userId, displayName, email, password);
         setIsSubmitted(flag);
         if(flag){
-          updateUsersLogin('usersLogin', userId);
+          updateDataInFirebase('usersLogin', userId, {signup: true} );
+          // updateUsersLogin('usersLogin', userId);
         }
        
         // createUserProfileDocument()

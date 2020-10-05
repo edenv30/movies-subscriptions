@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 
 import { Modal, Button, DropdownButton } from 'react-bootstrap';
 
-import { deleteUserFromFirebase } from '../../firebase/firebase.utils';
+import { deleteUserFromFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils';
 
 //<Link to="signup" classNameName="badge badge-warning"> Delete </Link>
 
 const UserCard = ({user}) => {
+
+    console.log(user);
 
     const [show, setShow] = useState(false);
 
@@ -28,7 +30,10 @@ const UserCard = ({user}) => {
     const deleteUser = (e) => {
         e.preventDefault();
         handleClose();
-        deleteUserFromFirebase(user.id);
+        deleteDataFromFirebase('users', user.id);
+        deleteDataFromFirebase('permissions', user.id);
+        deleteDataFromFirebase('usersLogin', user.userId);
+        // deleteUserFromFirebase(user.id);
     }
 
     return (
