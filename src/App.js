@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 
-// import { Switch, Route, Redirect  } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route, Link, Redirect, Switch } from 'react-router-dom';
+import { Switch, Route, Redirect  } from 'react-router-dom';
 
 import Error from './components/Error';
 import Home from './pages/MainPage/Home';
@@ -64,7 +63,6 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
 
   
   return (
-    <Router>
       <div className="App">
         <Header loggedIn={loggedIn} />
             <Switch>  
@@ -89,7 +87,6 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
             </Switch>
             { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="/" />  }
       </div>
-      </Router>
   );
 }
 // { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="signin" />  }
