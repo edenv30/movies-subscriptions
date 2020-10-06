@@ -61,7 +61,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
     //   addCollectionsAndDocuments('movies', movies);
     // }, [movies]);
 
-  
+  // console.log("This is the process.env", process.env.PUBLIC_URL)
   return (
       <div className="App">
         <Header loggedIn={loggedIn} />

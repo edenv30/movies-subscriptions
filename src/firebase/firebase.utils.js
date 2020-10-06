@@ -309,12 +309,6 @@ export const checkMemberInFirebase = async (collectionName, id, objectToAdd ) =>
       // const membermovieRef = memberRef.collection('movies')
       batch.update(memberRef, objectToAdd);
     }
-    // const collectionRef = firestore.collection(collectionName);
-    // //with batch object we add al the sets must to add all if not not set anyone
-    // const batch = firestore.batch();
-    // const newDocRef = collectionRef.doc(id); // firebase render an id for the collection
-    // batch.set(newDocRef, objectToAdd);
-    // // async request -> return a promise
     return await batch.commit();
   
   } catch(err) {
