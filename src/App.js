@@ -85,7 +85,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
               <Route path='/addmember' component={AddMember} />
               <Route component={Error} />
             </Switch>
-            { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="/" />  }
+            { loggedIn ? <Redirect from="/" to="/mainpage" /> : <Redirect  to="/" />  }
       </div>
   );
 }

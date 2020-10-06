@@ -8,6 +8,8 @@ import { firestore,
     getCollectionListSnapshotToMapUsersLogin } from '../../firebase/firebase.utils';
 import { getUserLoginList } from '../../redux/user/user.action';
 
+import BackButton from '../../components/BackButton';
+
 const SignUpFirstUserName = () => {
 
     const [userName, setUserName] = useState('');
@@ -89,6 +91,7 @@ const SignUpFirstUserName = () => {
                         }
                 </div>
             </form>
+            <BackButton children='Go back'/>
         </div>
     )
 }
