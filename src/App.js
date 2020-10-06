@@ -64,7 +64,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
       <div className="App">
         <Header loggedIn={loggedIn} />
             <Switch>  
-              <Route exact path='/signup' component={SignUp} />
+              <Route path='/signup' component={SignUp} />
               <Route path='/signupusername' component={SignUpFirstUserName} />
               <Route path='/mainpage' component={MainPage} />
               <Route path='/signin' component={LoginPage} />
@@ -81,11 +81,11 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
               <Route path='/editmember' component={EditMember} />
               <Route path='/addmember' component={AddMember} />
             </Switch>
-            { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="signin" />  }
+            { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : null  }
       </div>
   );
 }
-
+// { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="signin" />  }
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn
 })
