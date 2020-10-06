@@ -64,7 +64,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
       <div className="App">
         <Header loggedIn={loggedIn} />
             <Switch>  
-              <Route path='/signup' component={SignUp} />
+              <Route exact path='/signup' component={SignUp} />
               <Route path='/signupusername' component={SignUpFirstUserName} />
               <Route path='/mainpage' component={MainPage} />
               <Route path='/signin' component={LoginPage} />
