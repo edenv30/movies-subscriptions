@@ -3,6 +3,7 @@ import './App.css';
 
 import { Switch, Route, Redirect  } from 'react-router-dom';
 
+import Home from './pages/MainPage/Home';
 import Header from './components/header/Header';
 import LoginPage from './pages/Login/LoginPage';
 import SignUp from './components/SignUp/SignUp';
@@ -64,6 +65,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
       <div className="App">
         <Header loggedIn={loggedIn} />
             <Switch>  
+              <Route exact path='/' component={Home} />
               <Route path='/signup' component={SignUp} />
               <Route path='/signupusername' component={SignUpFirstUserName} />
               <Route path='/mainpage' component={MainPage} />
@@ -81,7 +83,7 @@ function App({ loggedIn, setUserLoggenIn, setUserLoginEmailPass }) {
               <Route path='/editmember' component={EditMember} />
               <Route path='/addmember' component={AddMember} />
             </Switch>
-            { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : null  }
+            { loggedIn ? <Redirect from="/signin" to="/mainpage" /> : <Redirect  to="/" />  }
       </div>
   );
 }
