@@ -7,6 +7,8 @@ import { setUserLoginEmailPass } from '../../redux/user/user.action';
 
 import { useLocation } from 'react-router-dom';
 
+import BackButton from '../../components/BackButton';
+
 // const [firstName, setFirstName] = useState('');
 // const [lastName, setLastName] = useState('');
 //     <div className="form-group w-25 p-3 mx-auto">
@@ -119,6 +121,7 @@ const SignUp = () => {
                     </button> <br /><br />
 
             </form>
+            <BackButton children='Go back'/>
         </div>
     )
 }

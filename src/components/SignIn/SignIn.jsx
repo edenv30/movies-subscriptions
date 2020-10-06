@@ -6,6 +6,7 @@ import { login } from '../../firebase/firebase.utils';
 
 import { connect } from 'react-redux';
 import { setUserLoginEmailPass } from '../../redux/user/user.action';
+import BackButton from '../../components/BackButton';
 
 
 const SignIn = ({setUserLoginEmailPass}) => {
@@ -46,6 +47,7 @@ const SignIn = ({setUserLoginEmailPass}) => {
                     <br /><br />
                 </div>
             </form>
+            <BackButton children='Go back'/>
         </div>
     )
 }

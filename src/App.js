@@ -94,11 +94,9 @@ const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn
 })
 
-
 const mapDispatchToProps = dispatch => ({
   setUserLoggenIn: flag => dispatch(setUserLoggenIn(flag)),
   setUserLoginEmailPass: user => dispatch(setUserLoginEmailPass(user))
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
