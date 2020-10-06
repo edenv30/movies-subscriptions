@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Button, Modal, ListGroup  } from 'react-bootstrap';
-import { deleteMovieFromFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils.js';
+import { deleteDataFromFirebase } from '../../firebase/firebase.utils.js';
 
 import TypesPermissions from '../ManageUsers/permissionsTypes';
 
 const MovieCard = ({movie}) => {
     
     const currentUserPermissions = useSelector(state => state.user.currentUserPermissions);
-    const currentUser = useSelector(state => state.user.currentUser);
+    // const currentUser = useSelector(state => state.user.currentUser);
 
     const [show, setShow] = useState(false);
 

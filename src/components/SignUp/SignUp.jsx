@@ -1,6 +1,6 @@
 import React , { useState, useEffect } from 'react';
 
-import { signup, updateUsersLogin, updateDataInFirebase } from '../../firebase/firebase.utils';
+import { signup, updateDataInFirebase } from '../../firebase/firebase.utils';
 
 import { connect } from 'react-redux';
 import { setUserLoginEmailPass } from '../../redux/user/user.action';

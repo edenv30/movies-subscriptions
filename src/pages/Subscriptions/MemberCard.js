@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { Card, Nav, Button, Modal, Form, Dropdown } from 'react-bootstrap';
 
-import { deleteMemberFromFirebase, checkMemberInFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils';
+import { updateDataInFirebase, checkMemberInFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils';
 
 import TypesPermissions from '../ManageUsers/permissionsTypes';
 
@@ -80,6 +80,26 @@ const MemberCard = ({member}) => {
         }
     }
 
+    const updateSubscriptionsMovies = async (movies) => {
+        // if(movies.length > 0) {
+            await updateDataInFirebase('subscriptions', member.id, {movies} );
+        // }
+        // if(movies.length === 0) {
+        //     await deleteDataFromFirebase('subscriptions', member.id);
+        // }
+    }
+
+    // const checkIfListChanged = (newMoviesMember) => {
+    //     var flag = false;
+    //     moviesByMemberId.map( oldMovie => newMoviesMember.map(
+    //         newMovie => {
+    //             if(oldMovie.movieId !== newMovie.movieId)
+    //                 return flag = true;
+    //         }
+    //     ) )
+    //     return flag;
+    // }
+
     useEffect( () => {
         // var flag = false;
         // moviesOfmembers.map( m => {
@@ -100,7 +120,22 @@ const MemberCard = ({member}) => {
             // const movies = [...moviesByMemberId , obj];
             setmoviesByMemberId([...moviesByMemberId , obj]);  /// to check assingment!!!
         }
-    }, [movieId, date])
+    }, [movieId, date]);
+
+    useEffect( () => {
+        if(moviesByMemberId.length > 0) {
+            const filtered  = moviesByMemberId.filter(function(array_el){
+                return moviesList.filter(function(anotherOne_el){
+                    return anotherOne_el.id === array_el.movieId;
+                }).length > 0
+            });
+            // const flag = checkIfListChanged(filtered);
+            // console.log(member.name, filtered)
+            // if(flag){
+                updateSubscriptionsMovies(filtered);
+            // }            
+        }
+    }, [moviesList, moviesByMemberId] );
    
     const filteredMoviesExist = () => {
         const filtered  = moviesList.filter(function(array_el){
@@ -120,7 +155,7 @@ const MemberCard = ({member}) => {
                         onSelect={(selectedKey) => setActiveKey(selectedKey)}>
                         <Nav.Item as="li"> 
                             <Nav.Link eventKey="details" className="nav nav-tabs btn btn-danger" 
-                                >
+                            >
                                 Member Details
                             </Nav.Link>
                         </Nav.Item>
@@ -173,7 +208,7 @@ const MemberCard = ({member}) => {
                                                 <Modal.Title>Delete Member</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                Are you sure you want to delete the user {member.name}?
+                                                Are you sure you want to delete the member {member.name}?
                                             </Modal.Body>
                                             <Modal.Footer>
                                                 <Button variant="danger" onClick={e => deleteUser(e) }>
@@ -195,20 +230,20 @@ const MemberCard = ({member}) => {
                                     {
                                         (moviesByMemberId) ?
                                         moviesByMemberId.map( (m, index) => {
-                                        {   var name = '';
-                                            moviesList.filter( movie => {
-                                            if(movie.id === m.movieId){
-                                                name = movie.name
-                                            }
-                                                return name
-                                            } ) 
-                                        }
-                                        return <li key={index}>
-                                                Movie : {name} <br />
-                                                Date: {m.date}
-                                            </li>
-                                    } )
-                                    : null
+                                               var name = '';
+                                                moviesList.filter( movie => {
+                                                if(movie.id === m.movieId){
+                                                    name = movie.name;
+                                                }
+                                                    return name;
+                                                } ) 
+                                            
+                                            return <li key={index}>
+                                                    Movie : {name} <br />
+                                                    Date: {m.date}
+                                                </li>
+                                        } )
+                                        : null
                                     }
                                     
                             </Card.Text>

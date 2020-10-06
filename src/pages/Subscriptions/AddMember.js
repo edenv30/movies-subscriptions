@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Link, Redirect } from 'react-router-dom';
 import { addNewUser } from '../../firebase/firebase.utils';
+import BackButton from '../../components/BackButton';
 
 const AddMember = () => {
 
@@ -44,7 +45,7 @@ const AddMember = () => {
                                 <h4 className="mb-0">Add new member</h4>
                             </div>
                             <div className="card-body">
-                                <form className="form" role="form" autoComplete="off">
+                                <form className="form" autoComplete="off">
                                     <div className="form-group row">
                                         <label className="col-lg-3 col-form-label form-control-label">Name</label>
                                             <div className="col-lg-9">
@@ -78,6 +79,7 @@ const AddMember = () => {
                     </div>
                 </div>
             </div>
+            <BackButton children='Go back'/>
         </div>
     )
 }

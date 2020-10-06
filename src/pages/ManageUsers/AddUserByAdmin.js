@@ -4,10 +4,13 @@ import { Link, Redirect } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { firestore, addNewUser, isUserNameExist,
+import { firestore, addNewUser,
         getCollectionListSnapshotToMapUsersLogin } from '../../firebase/firebase.utils';
 
 import { getUserLoginList } from '../../redux/user/user.action';
+
+import BackButton from '../../components/BackButton';
+
 
 const AddUserByAdmin = () => {
 
@@ -76,7 +79,7 @@ const AddUserByAdmin = () => {
                                 <h4 className="mb-0">Add new user</h4>
                             </div>
                             <div className="card-body">
-                                <form className="form" role="form" autoComplete="off">
+                                <form className="form" autoComplete="off">
                                     <div className="form-group row">
                                         <label className="col-lg-3 col-form-label form-control-label">User Name</label>
                                             <div className="col-lg-9">
@@ -97,6 +100,7 @@ const AddUserByAdmin = () => {
                     </div>
                 </div>
             </div>
+            <BackButton children='Go back'/>
         </div>
     )
 }

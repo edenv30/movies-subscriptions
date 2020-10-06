@@ -6,7 +6,10 @@ import { useLocation } from 'react-router-dom';
 
 // import {DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
-import { updateMovieDataInFirebase, updateDataInFirebase } from '../../firebase/firebase.utils';
+import { updateDataInFirebase } from '../../firebase/firebase.utils';
+
+import BackButton from '../../components/BackButton';
+
 
 const EditMovie = () => {
 
@@ -58,7 +61,7 @@ const EditMovie = () => {
                                  <h4 className="mb-0">Movie Information</h4>
                              </div>
                              <div className="card-body">
-                                 <form className="form" role="form" autoComplete="off">
+                                 <form className="form" autoComplete="off">
                                      <div className="form-group row">
                                          <label className="col-lg-3 col-form-label form-control-label">Name: </label>
                                          <div className="col-lg-9">
@@ -98,9 +101,10 @@ const EditMovie = () => {
                                  </form>
                              </div>
                          </div>
-             </div>
-         </div>
-     </div>
+                    </div>
+                </div>
+            </div>
+            <BackButton children='Go back'/>
      </div>
     )
 }

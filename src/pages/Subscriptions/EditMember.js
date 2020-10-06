@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link, Redirect } from 'react-router-dom';
-import { updateMemberDataInFirebase, updateDataInFirebase } from '../../firebase/firebase.utils';
+import { updateDataInFirebase } from '../../firebase/firebase.utils';
+import BackButton from '../../components/BackButton';
 
 const EditMember = () => {
 
@@ -39,7 +40,7 @@ const EditMember = () => {
                                     <h4 className="mb-0">Member Information</h4>
                                 </div>
                                 <div className="card-body">
-                                    <form className="form" role="form" autoComplete="off">
+                                    <form className="form" autoComplete="off">
                                         <div className="form-group row">
                                             <label className="col-lg-3 col-form-label form-control-label">Name</label>
                                             <div className="col-lg-9">
@@ -72,6 +73,7 @@ const EditMember = () => {
                         </div>
                     </div>
                 </div>
+                <BackButton children='Go back'/>
         </div>
     )
 }

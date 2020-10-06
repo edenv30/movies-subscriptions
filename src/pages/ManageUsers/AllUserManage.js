@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUsersList, getPermissionsUsers, setUsersWithPermissions } from '../../redux/user/user.action';
+// import { getUsersList, getPermissionsUsers, setUsersWithPermissions } from '../../redux/user/user.action';
+import { setUsersWithPermissions } from '../../redux/user/user.action';
 
 import { firestore, getCollectionListSnapshotToMap,
-    getCollectionListusersPermissionsSnapShotToMap,
-    onAuthStateChangeFirebase } from '../../firebase/firebase.utils';
+    getCollectionListusersPermissionsSnapShotToMap } from '../../firebase/firebase.utils';
+// import { onAuthStateChangeFirebase } from '../../firebase/firebase.utils';
 
 import UserCard from './UserCard';
+
+import BackButton from '../../components/BackButton';
+
 
 // Only fron Admin!!!!!!
 const AllUserManage = () => {
@@ -75,6 +79,9 @@ const AllUserManage = () => {
                         } )) : null
                 }
             </div>
+
+            <BackButton children='Go back'/>
+
         </div>
     )
 }

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setMembers } from '../../redux/members/members.actions';
 
 import TypesPermissions from '../ManageUsers/permissionsTypes';
+import BackButton from '../../components/BackButton';
 
 const Subscriptions = () => {
 
@@ -28,7 +29,18 @@ const Subscriptions = () => {
         <div>
             <br/><br/><br/>
             <h1>Movies - Subscriptions: Subscriptions</h1>
-            <Link to='allmembers' className="btn btn-outline-warning">All Members</Link>
+            <div>
+            {
+                (currentUserPermissions[0])?
+                (
+                    (currentUserPermissions[0][TypesPermissions.vs])?
+                    (             
+                        <Link to='allmembers' className="btn btn-outline-warning">All Members</Link>
+                    )                    
+                    : null
+                ) 
+                : null
+            }
             {
                 (currentUserPermissions[0])?
                 (
@@ -40,7 +52,9 @@ const Subscriptions = () => {
                 ) 
                 : null
             }
-            
+            </div>
+            <br /><br /><br />
+            <BackButton children='Go back'/>
         </div>
     )
 }

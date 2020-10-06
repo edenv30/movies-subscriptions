@@ -12,7 +12,7 @@ const AddUser = () => {
 
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
-    const [permissions, setPermissions] = useState([]);
+    // const [permissions, setPermissions] = useState([]);
 
     const [changed, setChanged] = useState(false);
 
@@ -44,7 +44,7 @@ const AddUser = () => {
                                 <h4 className="mb-0">Add new user</h4>
                             </div>
                             <div className="card-body">
-                                <form className="form" role="form" autoComplete="off">
+                                <form className="form" autoComplete="off">
                                     <div className="form-group row">
                                         <label className="col-lg-3 col-form-label form-control-label">Name</label>
                                             <div className="col-lg-9">

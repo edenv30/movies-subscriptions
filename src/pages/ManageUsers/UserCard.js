@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom';
 
 import { Modal, Button, DropdownButton } from 'react-bootstrap';
 
-import { deleteUserFromFirebase, deleteDataFromFirebase } from '../../firebase/firebase.utils';
+import { deleteDataFromFirebase } from '../../firebase/firebase.utils';
 
 //<Link to="signup" classNameName="badge badge-warning"> Delete </Link>
 
 const UserCard = ({user}) => {
-
-    console.log(user);
 
     const [show, setShow] = useState(false);
 
@@ -51,7 +49,6 @@ const UserCard = ({user}) => {
                         
                     </p>
                     <DropdownButton
-                        style="default"
                         size="small"
                         style={{ maxHeight: "28px" }}
                         title={"Permissions"}

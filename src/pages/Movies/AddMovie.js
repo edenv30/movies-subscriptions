@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { addMovie } from '../../redux/movies/movies.actions';
 import { addDocumentToCollection } from '../../firebase/firebase.utils';
 import validator from 'validator';
+import BackButton from '../../components/BackButton';
 
 const AddMovie = () => {
     const [name, setName] = useState('');
@@ -87,7 +88,7 @@ const AddMovie = () => {
                                 <h4 className="mb-0">Add new movie</h4>
                             </div>
                             <div className="card-body">
-                                <form className="form" role="form" autoComplete="off">
+                                <form className="form" autoComplete="off">
                                     <div className="form-group row">
                                         <label className="col-lg-3 col-form-label form-control-label">Name</label>
                                             <div className="col-lg-9">
@@ -130,6 +131,7 @@ const AddMovie = () => {
                     </div>
                 </div>
             </div>
+            <BackButton children='Go back'/>
         </div>
     )
 }

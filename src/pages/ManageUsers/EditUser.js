@@ -8,7 +8,10 @@ import { useLocation } from 'react-router-dom';
 
 import TypesPermissions from './permissionsTypes';
 
-import { updateUserDateInFireBase, updateUserPermissionsDateInFireBase, updateDataInFirebase } from '../../firebase/firebase.utils';
+import { updateDataInFirebase } from '../../firebase/firebase.utils';
+
+import BackButton from '../../components/BackButton';
+
 
 const EditUser = () => {
 
@@ -88,7 +91,7 @@ const EditUser = () => {
         // update in permissions
         const { viewSubscriptions, createSubscriptions, updateSubscriptions, deleteSubscriptions,
             viewMovies, createMovies, updateMovies, deleteMovies } = permissions[0];
-        var userData = {
+        var userDataPermissions = {
             id: user.id,
             viewSubscriptions, 
             createSubscriptions, 
@@ -99,7 +102,7 @@ const EditUser = () => {
             updateMovies,
             deleteMovies
         };
-        updateDataInFirebase('permissions', user.id, userData);
+        updateDataInFirebase('permissions', user.id, userDataPermissions);
         // updateUserPermissionsDateInFireBase(user.id, permissions[0]);
         alert('Details changed successfully');
         setChanged(true);
@@ -117,7 +120,7 @@ const EditUser = () => {
                                     <h4 className="mb-0">User Information</h4>
                                 </div>
                                 <div className="card-body">
-                                    <form className="form" role="form" autoComplete="off">
+                                    <form className="form" autoComplete="off">
                                         <div className="form-group row">
                                             <label className="col-lg-3 col-form-label form-control-label">Name</label>
                                             <div className="col-lg-9">
@@ -166,9 +169,10 @@ const EditUser = () => {
                                     </form>
                                 </div>
                             </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <BackButton children='Go back'/>
         </div>
     )
 }

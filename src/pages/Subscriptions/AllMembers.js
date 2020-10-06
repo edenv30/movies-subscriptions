@@ -8,6 +8,8 @@ import { firestore, getMoviesByMemberid } from '../../firebase/firebase.utils';
 
 import { setMoviesByMember } from '../../redux/members/members.actions';
 
+import BackButton from '../../components/BackButton';
+
 const AllMembers = () => {
 
     const members = useSelector(state => state.members.members);
@@ -36,6 +38,7 @@ const AllMembers = () => {
                 })
             }
             </div>
+            <BackButton children='Go back'/>
         </div>
     )
 }

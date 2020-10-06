@@ -4,15 +4,14 @@ import { useSelector } from 'react-redux';
 
 import MovieCard from './MovieCard';
 
+import BackButton from '../../components/BackButton';
 
 const AllMovies = ({searchField}) => {
-
 
     const moviesList = useSelector(state => state.movies.movies);
 
     const [moviesListTemp, setmoviesListTemp] = useState(moviesList);
     
-
 
     useEffect( ()=> {
         try {
@@ -29,6 +28,9 @@ const AllMovies = ({searchField}) => {
        
     }, [searchField]);
 
+    useEffect( () => {
+        setmoviesListTemp(moviesList);
+    },[moviesList])
 
     return (
         <div>
@@ -37,11 +39,16 @@ const AllMovies = ({searchField}) => {
                     (moviesListTemp) ? 
                     (moviesListTemp.map( movie => {
                         return (
-                            <MovieCard movie={movie} />
+                            <div key={movie.id}>
+                                <MovieCard movie={movie} />
+                            </div>
                         )
                     } )) : null
             }
             </div>
+            
+            <BackButton children='Go back'/>
+
         </div>
     )
 }

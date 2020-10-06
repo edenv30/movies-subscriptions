@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { Switch, Route, Redirect  } from 'react-router-dom';
@@ -23,8 +23,8 @@ import AllMembers from './pages/Subscriptions/AllMembers';
 import EditMember from './pages/Subscriptions/EditMember';
 import AddMember from './pages/Subscriptions/AddMember';
 
-import { onAuthStateChangeFirebase, addCollectionsAndDocuments } from './firebase/firebase.utils';
-
+import { onAuthStateChangeFirebase } from './firebase/firebase.utils';
+// import { addCollectionsAndDocuments } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setUserLoggenIn, setUserLoginEmailPass } from './redux/user/user.action';
 
