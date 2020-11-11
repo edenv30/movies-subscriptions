@@ -21,6 +21,11 @@ o “View Movies”
 o “Create Movies”
 o “Delete Movies”
 
-For try:
+For try: 
+Permissions: view movies & view subscriptions:
 user name: user@gmail.com
+password: 123456
+
+All permissions (without user management):
+user name: adar@gmail.com
 password: 123456
